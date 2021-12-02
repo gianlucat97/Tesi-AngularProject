@@ -98,7 +98,7 @@ jobs:
             cd test-guard
             ls -a
             echo "Visualizzazione file ftl prima dell injection! "
-            cat ${{ secrets.DIR_FILE_FTL }}
+            cat ${{ secrets.DIR_FILE_FE }}
             echo "Visualizza versione di node"
             node -v
             echo "... Cancellazione e successivo aggiornamento di node_modules ..."
@@ -114,9 +114,9 @@ jobs:
             echo "INJECTION adesso..."
             echo "Visualizza versione di node"
             node -v
-            node main.js inject-hooks ${{ secrets.DIR_FILE_FTL }} --grammar ${{ secrets.GRAMMAR_TYPE }}
+            node main.js inject-hooks ${{ secrets.DIR_FILE_FE }} --grammar ${{ secrets.GRAMMAR_TYPE }}
             echo "Visualizzazione file ftl dopo l'injection!!! "
-            cat ${{ secrets.DIR_FILE_FTL }}
+            cat ${{ secrets.DIR_FILE_FE }}
             
             
             fi
@@ -133,13 +133,13 @@ jobs:
           echo "unzip eseguito"
           cd setSkipTest/target
           echo "esecuzione jar for set true skip test"
-          java -jar setSkipTest-jarSetSplitTest.jar ${{ secrets.FILE_POM_MAIN_PROJECT }} true
+          java -jar setSkipTest-jarSetSplitTest.jar ${{ secrets.BASE_PATH }}/pom.xml true
           echo "Settaggio completato, visualizziamo il nuovo valore del pom"
-          cat ${{ secrets.FILE_POM_MAIN_PROJECT }}
+          cat ${{ secrets.BASE_PATH }}/pom.xml
           echo "Prima di fare il packaging, verifichiamo il contenuto del file ftl"
-          cat ${{ secrets.DIR_FILE_FTL }}
+          cat ${{ secrets.DIR_FILE_FE }}
           echo "Facciamo il packaging senza test dell'applicativo"
-          mvn -B package --file ${{ secrets.FILE_POM_MAIN_PROJECT }}
+          mvn -B package --file ${{ secrets.BASE_PATH }}/pom.xml
           echo "Packaging senza test completato!"       
             
             
@@ -193,7 +193,7 @@ jobs:
         
       - name: Step 10 - Esegui Applicazione Spring Boot tramite jar
         run:  |
-            cd ${{ secrets.DIR_JAR_MAIN_PROJECT }}
+            cd ${{ secrets.BASE_PATH }}/target
             echo "Vediamo quali file jar si trovano in cartella target"
             ls -a
             echo "Proviamo ad eseguire ${{ secrets.NOME_JAR_WEBAPP }}.jar"
@@ -236,21 +236,21 @@ jobs:
         run:  |
             cd setSkipTest/target
             echo "esecuzione jar for set false skip test"
-            java -jar setSkipTest-jarSetSplitTest.jar ${{ secrets.FILE_POM_MAIN_PROJECT }} false
+            java -jar setSkipTest-jarSetSplitTest.jar ${{ secrets.BASE_PATH }}/pom.xml false
             echo "Settaggio completato, visualizziamo il nuovo valore del pom"
-            cat ${{ secrets.FILE_POM_MAIN_PROJECT }}
+            cat ${{ secrets.BASE_PATH }}/pom.xml
             
           
           
       - name: Step 14 - Eseguire test maven
         run:  |
-            cd ${{ secrets.DIR_POM_MAIN_PROJECT }}
+            cd ${{ secrets.BASE_PATH }}
             sudo bash -c 'mvn -Dtest=${{ secrets.TEST_TO_EXECUTE }}  test site &'
             sleep 5m
             
       - name: Step 15 - Visualizzare report test
         run: |
-            cd ${{ secrets.DIR_JAR_MAIN_PROJECT }}/surefire-reports
+            cd ${{ secrets.BASE_PATH }}/target/surefire-reports
             ls -a 
             echo "Visualizziamo adesso tutti i report txt ottenuti dalle nostre test suite"
             cat *.txt
@@ -259,7 +259,7 @@ jobs:
        
       - name: Step 16 - Spostamento report in directory corretta
         run: |  
-          cd ${{ secrets.DIR_JAR_MAIN_PROJECT }}
+          cd ${{ secrets.BASE_PATH }}/target
           echo "Visualizziamo se c'è la cartella surefire-reports"
           ls -a 
           echo "Rinominare la cartella surefire-reports in nome del tag della release creata"
@@ -305,17 +305,17 @@ jobs:
           cd miglioramentoReportTest/target
           ls -a
           echo "Proviamo ad eseguire il file jar, passandogli come args[0] la directory dei report da analizzare e come args[1] il nome del report complessivo xls da generare"
-          java -jar miglioramentoReportTest-0.0.1-jarReportTest.jar ${{ secrets.DIR_TEST_SUITE }}/${GITHUB_REF#refs/tags/} ${{ secrets.NOME_REPORT_FINALE }}
+          java -jar miglioramentoReportTest-0.0.1-jarReportTest.jar ${{ secrets.DIR_TEST_SUITE }}/${GITHUB_REF#refs/tags/} tabellaReportTest
           echo "File jar eseguito!!!"
           echo "Vediamo il file xls di report unificato se c'è"
           ls -a 
           echo "Vediamo il contenuto del file xls di report unificato!!!"
-          cat ${{ secrets.NOME_REPORT_FINALE.xls }}
+          cat tabellaReportTest.xls
           
       - name: Step 20 - Spostamento report xls in cartella dei report txt
         run: | 
           cd miglioramentoReportTest/target
-          sudo cp ${{ secrets.NOME_REPORT_FINALE }}.xls ${{ secrets.DIR_TEST_SUITE }}/${GITHUB_REF#refs/tags/}
+          sudo cp tabellaReportTest.xls ${{ secrets.DIR_TEST_SUITE }}/${GITHUB_REF#refs/tags/}
           
       - name: Step 21 - Commit del report xls
         run: | 

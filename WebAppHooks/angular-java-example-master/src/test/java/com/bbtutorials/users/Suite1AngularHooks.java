@@ -61,7 +61,6 @@ private static StringBuffer verificationErrors = new StringBuffer();
     driver.findElement(By.xpath("//*[@x-test-tpl-2]//*[@x-test-hook-17]")).clear();
     driver.findElement(By.xpath("//*[@x-test-tpl-2]//*[@x-test-hook-17]")).sendKeys("mattia.verdi@email.com");
     driver.findElement(By.xpath("//*[@x-test-tpl-2]//*[@x-test-hook-18]")).click();
-    driver.findElement(By.xpath("//*[@x-test-tpl-2]//*[@x-test-hook-20]//*[@x-test-tpl-23]//*[@x-test-hook-27]")).click();
   }
 
 

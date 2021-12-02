@@ -1,0 +1,21 @@
+BRANCH_NAME: master
+BASE_PATH: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject/WebAppHooks/angular-java-example-master
+DIR_FILE_FTL: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject/WebAppHooks/angular-java-example-master/src/main/ui/src/app/*.html
+FILE_POM_MAIN_PROJECT: BASE_PATH/pom.xml
+DIR_POM_MAIN_PROJECT: BASE_PATH
+DIR_JAR_MAIN_PROJECT: BASE_PATH/target
+TEST_TO_EXECUTE: SuiteSecondAppHooks,SuiteSecondAppTradizionale
+DIR_SUREFIRE_REPORTS: BASE_PATH/target/surefire-reports
+DIR_TEST_SUITE: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject/TestSuite
+NOME_TEST_SUITE: TestSuite
+INFO_COMMIT_TEST_SUITE: Testing di una seconda AUT per il lavoro di tesi
+EMAIL_ACCOUNT_GITHUB: t*********@gmail.com
+NOME_ACCOUNT_GITHUB: g*********
+PASSWORD_ACCOUNT_GITHUB: *********
+NOME_REPORT_FINALE: tabellaReportTest
+GRAMMAR_TYPE: angularjs
+NOME_JAR_WEBAPP: users-0.0.1-SNAPSHOT
+DIR_TEST_PROGETTO_JUNIT: BASE_PATH/src/test/java/it/movie/test
+TEST_PACKAGE_PROJECT: it.movie.test
+NUMERO_SPLIT: 1
+PATH_REPOSITORY: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject

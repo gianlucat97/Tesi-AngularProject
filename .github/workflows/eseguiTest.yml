@@ -103,23 +103,13 @@ jobs:
             echo "... Cancellazione e successivo aggiornamento di node_modules ..."
             rm -rf node_modules/
             npm update
-            
-            echo "entra nel if solamente se si intendono utilizzare gli Hooks nel progetto"
-            varTemp=$(echo "${GITHUB_REF#refs/tags/}" | tail -c 6)
-            echo "varTemp"
-            if [ "$varTemp" == "Hooks" ]; then
-            
-            echo "Sono entrato nel if"
             echo "INJECTION adesso..."
             echo "Visualizza versione di node"
             node -v
             node main.js inject-hooks ${{ secrets.DIR_FILE_FE }} --grammar ${{ secrets.GRAMMAR_TYPE }}
             echo "Visualizzazione file ftl dopo l'injection!!! "
             cat ${{ secrets.DIR_FILE_FE }}
-            
-            
-            fi
-            echo "Fuori dal if"
+         
       
       
       

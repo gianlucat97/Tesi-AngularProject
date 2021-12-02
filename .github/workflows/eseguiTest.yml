@@ -32,21 +32,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-          
-      - name: Step 2.2 - Visualizzare tag corrente
-        run: |
-          echo "Vediamo il tag corrente:"
-          echo "${GITHUB_REF#refs/tags/}"
-          echo "${GITHUB_REF#refs/heads/}"
-          echo "Vediamo se si potrebbe capire automaticamente che si usano gli hooks"
-          echo "Stampa a video degli utlimi 5 caratteri del tag della release corrente"
-          varTemp=$(echo "${GITHUB_REF#refs/tags/}" | tail -c 6)
-          echo "$varTemp"
-          echo "Vediamo qual è l'id dell'attuale commit"
-          echo "$GITHUB_SHA"
-          echo "Vediamo path WEB DRIVER"
-          echo "${{ secrets.PATH_REPOSITORY }}/chromedriver_v94_linux64/chromedriver"
-       
+               
        
       - name: Step 3 - Installare Node versione 10 in Ubuntu
         run: |
@@ -193,9 +179,10 @@ jobs:
         run:  |
             cd ${{ secrets.DIR_PROJECT_FE }}
             echo "Siamo nella directory FE, proviamo a lanciarlo in esecuzione"
+            sudo npm cache clean -f
             npm install
             echo "Installazione npm effettuata, prossimo comando: npm start"
-            npm start &
+            npm start
     
           
       - name: Step 11 - Install Chrome Headless

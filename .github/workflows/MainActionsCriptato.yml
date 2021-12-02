@@ -199,6 +199,14 @@ jobs:
             echo "Proviamo ad eseguire ${{ secrets.NOME_JAR_WEBAPP }}.jar"
             java -jar ${{ secrets.NOME_JAR_WEBAPP }}.jar &
             echo "Vediamo se si è attivato il thread che fa andare avanti"
+            
+      - name: Step 10.2 - Esegui Applicazione FE tramite nmp
+        run:  |
+            cd ${{ secrets.DIR_PROJECT_FE }}
+            echo "Siamo nella directory FE, proviamo a lanciarlo in esecuzione"
+            npm install
+            echo "Installazione npm effettuata, prossimo comando: npm start"
+            npm start &
     
           
       - name: Step 11 - Install Chrome Headless

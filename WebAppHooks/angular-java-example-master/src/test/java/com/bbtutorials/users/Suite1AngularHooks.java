@@ -34,7 +34,7 @@ private static StringBuffer verificationErrors = new StringBuffer();
 		  options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--no-sandbox","--ignore-certificate-errors");
 		  driver = new ChromeDriver(options);  
 		  
-		  
+		   
 		  
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }

@@ -147,15 +147,15 @@ jobs:
       - name: Step 7 - Creazione directory Test Suite
         run: |
           ls -a
-          if [ ! -d "${{ secrets.DIR_TEST_SUITE }}" ]; then
+          if [ ! -d "${{ secrets.PATH_REPOSITORY }}/TestSuite" ]; then
             echo "Vedi se sono dentro l'if numero 1"
-            sudo mkdir ${{ secrets.NOME_TEST_SUITE }}
+            sudo mkdir TestSuite
           fi
           echo "Vediamo se ha creato la cartella"
           ls -a       
-          cd ${{ secrets.NOME_TEST_SUITE }}
+          cd TestSuite
           ls -a
-          if [ ! -d "${{ secrets.DIR_TEST_SUITE }}/TestHTML" ]; then
+          if [ ! -d "${{ secrets.PATH_REPOSITORY }}/TestSuite/TestHTML" ]; then
             echo "Vedi se sono dentro l'if numero 2"
             sudo mkdir TestHTML
           fi
@@ -164,7 +164,7 @@ jobs:
         run: |
           ls -a
           echo "Rechiamoci nella directory TestHTML"
-          cd ${{ secrets.NOME_TEST_SUITE }}/TestHTML
+          cd TestSuite/TestHTML
           echo "se esite già, cancella la cartella ReportSplitter"
           if [ -d "ReportSplitter" ]; then
             echo "La cartella esiste già"
@@ -182,9 +182,9 @@ jobs:
           cd test-hooks/test-guard
           ls -a
           echo "Proviamo ad eseguire lo script test-script-splitter"
-          sudo bash -c 'node test-script-splitter.js --suites ${{ secrets.PATH_REPOSITORY }}/${{ secrets.NOME_TEST_SUITE }}/TestHTML --dest ${{ secrets.PATH_REPOSITORY }}/${{ secrets.NOME_TEST_SUITE }}/TestHTML/ReportSplitter/ReportSplit --num ${{ secrets.NUMERO_SPLIT }}' 
+          sudo bash -c 'node test-script-splitter.js --suites ${{ secrets.PATH_REPOSITORY }}/TestSuite/TestHTML --dest ${{ secrets.PATH_REPOSITORY }}/TestSuite/TestHTML/ReportSplitter/ReportSplit --num ${{ secrets.NUMERO_SPLIT }}' 
           echo "Script eseguito"
-          cd ${{ secrets.PATH_REPOSITORY }}/${{ secrets.NOME_TEST_SUITE }}/TestHTML/ReportSplitter
+          cd ${{ secrets.PATH_REPOSITORY }}/TestSuite/TestHTML/ReportSplitter
           echo "Vediamo se ha generato le n cartelle ReportSplit"
           ls -a
           echo "Vediamo cosa c'è dentro ReportSplit0"
@@ -266,7 +266,7 @@ jobs:
           sudo mv surefire-reports ${GITHUB_REF#refs/tags/}
           echo "Vediamo se la ha rinominata:"
           ls -a
-          sudo cp -r ${GITHUB_REF#refs/tags/} ${{ secrets.DIR_TEST_SUITE }}
+          sudo cp -r ${GITHUB_REF#refs/tags/} ${{ secrets.PATH_REPOSITORY }}/TestSuite
           
       - name: Step 17 - Push dei report
         run: |
@@ -277,9 +277,9 @@ jobs:
           git config --global user.password "${{ secrets.PASSWORD_ACCOUNT_GITHUB }}"
           git status
           echo "Andiamo ad aggiungere la cartella dei report"
-          git add ${{ secrets.DIR_TEST_SUITE }}
+          git add ${{ secrets.PATH_REPOSITORY }}/TestSuite
           echo "Cartella aggiunta!"
-          git commit -m "${{ secrets.INFO_COMMIT_TEST_SUITE }}"
+          git commit -m "Eseguendo un primo commit dal file yml"
           git tag --list
           echo "Andiamo ad aggiungere, se non ci era già, il tag corrente"
           git tag --force ${GITHUB_REF#refs/tags/}
@@ -305,7 +305,7 @@ jobs:
           cd miglioramentoReportTest/target
           ls -a
           echo "Proviamo ad eseguire il file jar, passandogli come args[0] la directory dei report da analizzare e come args[1] il nome del report complessivo xls da generare"
-          java -jar miglioramentoReportTest-0.0.1-jarReportTest.jar ${{ secrets.DIR_TEST_SUITE }}/${GITHUB_REF#refs/tags/} tabellaReportTest
+          java -jar miglioramentoReportTest-0.0.1-jarReportTest.jar ${{ secrets.PATH_REPOSITORY }}/TestSuite/${GITHUB_REF#refs/tags/} tabellaReportTest
           echo "File jar eseguito!!!"
           echo "Vediamo il file xls di report unificato se c'è"
           ls -a 
@@ -315,7 +315,7 @@ jobs:
       - name: Step 20 - Spostamento report xls in cartella dei report txt
         run: | 
           cd miglioramentoReportTest/target
-          sudo cp tabellaReportTest.xls ${{ secrets.DIR_TEST_SUITE }}/${GITHUB_REF#refs/tags/}
+          sudo cp tabellaReportTest.xls ${{ secrets.PATH_REPOSITORY }}/TestSuite/${GITHUB_REF#refs/tags/}
           
       - name: Step 21 - Commit del report xls
         run: | 
@@ -327,9 +327,9 @@ jobs:
           git config --global user.password "${{ secrets.PASSWORD_ACCOUNT_GITHUB }}"
           git status
           echo "Andiamo ad aggiungere la cartella dei report"
-          git add ${{ secrets.DIR_TEST_SUITE }}
+          git add ${{ secrets.PATH_REPOSITORY }}/TestSuite
           echo "Cartella aggiunta!"
-          git commit -m "${{ secrets.INFO_COMMIT_TEST_SUITE }}"
+          git commit -m "Eseguendo un secondo commit dal file yml"
           git tag --list
           echo "Andiamo ad aggiungere, se non ci era già, il tag corrente"
           git tag --force ${GITHUB_REF#refs/tags/}

@@ -254,7 +254,7 @@ jobs:
         run:  |
             cd ${{ secrets.BASE_PATH }}
             sudo bash -c 'mvn -Dtest=${{ secrets.TEST_TO_EXECUTE }}  test site &'
-            sleep 5m
+            sleep ${{ secrets.MIN_EXE_TEST }}m
             
       - name: Step 15 - Visualizzare report test
         run: |

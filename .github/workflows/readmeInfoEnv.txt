@@ -12,3 +12,4 @@ DIR_TEST_PROGETTO_JUNIT: BASE_PATH/src/test/java/com/bbtutorials/users
 TEST_PACKAGE_PROJECT: com.bbtutorials.users
 NUMERO_SPLIT: 1
 PATH_REPOSITORY: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject
+MIN_EXE_TEST: 5

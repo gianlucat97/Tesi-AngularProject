@@ -36,9 +36,11 @@ jobs:
              
       - name: Step 3 - Unzip ed esecuzione progetto correzioneFormatoTest
         run: |
-          cd correzioneFormatoTest
-          mvn clean install
-          cd target
+          echo "Proviamo ad unzippare"
+          unzip correzioneFormatoTest
+          echo "Unzippato"
+          ls -a
+          cd correzioneFormatoTest/target
           echo "Vediamo contenuto cartella target"
           ls -a
           java -jar correzioneFormatoTest-0.0.1-jarCorrezioneFormatoTest.jar ${{ secrets.PATH_REPOSITORY }}/project-test-headless/src/test/java/com/headless/yourtest ${{ secrets.PATH_REPOSITORY }}/chromedriver_v94_linux64/chromedriver com.example.TesiIntegrazioneProgettoEsterno                   
@@ -64,5 +66,4 @@ jobs:
           git commit -m "commit da correzioneFormatoTest.yml"
           git branch -M ${{ secrets.BRANCH_NAME }} 
           git push -u origin ${{ secrets.BRANCH_NAME }}
-          
           
